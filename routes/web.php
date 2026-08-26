@@ -1,3 +1,4 @@
+<?php 
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\CategoryController;
