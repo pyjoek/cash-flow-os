@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 
 function formatTZS(value) {
     return new Intl.NumberFormat('en-TZ', { maximumFractionDigits: 0 }).format(value);
@@ -17,11 +17,68 @@ function StatCard({ label, value, accent }) {
     );
 }
 
-function ComingSoonCard({ title, note }) {
+function SuggestionsCard({ suggestions }) {
+    function apply(transactionId, categoryId) {
+        router.patch(
+            route('transactions.update-category', transactionId),
+            { category_id: categoryId },
+            { preserveScroll: true }
+        );
+    }
+
     return (
-        <div className="rounded-lg border border-dashed border-[#DDD6C4] bg-white/60 p-5">
-            <p className="text-sm font-medium text-[#16231F]">{title}</p>
-            <p className="mt-1 text-xs text-[#8A8272]">{note}</p>
+        <div className="rounded-lg border border-[#E4DCC8] bg-white p-5">
+            <p className="text-sm font-medium text-[#16231F]">AI suggestions</p>
+            <p className="text-xs text-[#8A8272]">Based on transaction descriptions</p>
+
+            <div className="mt-4 space-y-3">
+                {suggestions.length === 0 && (
+                    <p className="text-sm text-[#8A8272]">
+                        Nothing to suggest right now — everything's categorized.
+                    </p>
+                )}
+
+                {suggestions.map((s) => (
+                    <div key={s.transaction_id} className="flex items-center justify-between text-sm">
+                        <div>
+                            <p className="text-[#16231F]">{s.description}</p>
+                            <p className="text-xs text-[#8A8272]">
+                                Suggested: <span className="font-medium">{s.suggested_category_name}</span>
+                            </p>
+                        </div>
+                        <button
+                            onClick={() => apply(s.transaction_id, s.suggested_category_id)}
+                            className="rounded-md px-3 py-1 text-xs font-medium text-white"
+                            style={{ backgroundColor: '#C08A28' }}
+                        >
+                            Apply
+                        </button>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+}
+
+function ForecastCard({ projectedBalance30, net30 }) {
+    return (
+        <div className="rounded-lg border border-[#E4DCC8] bg-white p-5">
+            <p className="text-sm font-medium text-[#16231F]">30-day forecast</p>
+            <p className="text-xs text-[#8A8272]">Projected from your last 30 days of activity</p>
+
+            <p className="mt-3 font-mono text-2xl" style={{ color: projectedBalance30 >= 0 ? '#0F2E2B' : '#B3402B' }}>
+                {formatTZS(projectedBalance30)}
+                <span className="ml-1 text-xs text-[#8A8272]">TZS</span>
+            </p>
+            <p className="mt-1 text-xs text-[#8A8272]">
+                Assumes the same net cash flow ({net30 >= 0 ? '+' : ''}
+                {formatTZS(net30)} TZS over the last 30 days) continues.
+            </p>
+
+            <p className="mt-4 text-xs text-[#8A8272]">
+                Upcoming bill reminders need a recurring-bills feature that isn't built yet —
+                that's a separate table/feature, not something this forecast can show today.
+            </p>
         </div>
     );
 }
@@ -35,6 +92,9 @@ export default function Dashboard({
     trend,
     recentTransactions,
     accountCount,
+    suggestions,
+    net30,
+    projectedBalance30,
 }) {
     const maxCategory = Math.max(...topCategories.map((c) => Number(c.total)), 1);
     const maxTrend = Math.max(...trend.map((t) => Math.abs(t.net)), 1);
@@ -140,14 +200,8 @@ export default function Dashboard({
                     </div>
                 </div>
 
-                <ComingSoonCard
-                    title="AI suggestions"
-                    note="Automatic categorization and spending insights land in Sprint 3."
-                />
-                <ComingSoonCard
-                    title="Forecast & upcoming bills"
-                    note="The what-if simulator and bill reminders land in Sprint 4."
-                />
+                <SuggestionsCard suggestions={suggestions} />
+                <ForecastCard projectedBalance30={projectedBalance30} net30={net30} />
             </div>
         </AuthenticatedLayout>
     );

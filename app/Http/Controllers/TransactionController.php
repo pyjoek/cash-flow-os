@@ -15,6 +15,19 @@ use Inertia\Response;
 
 class TransactionController extends Controller
 {
+    public function updateCategory(Request $request, Transaction $transaction): RedirectResponse
+    {
+        $this->authorize('update', $transaction);
+
+        $data = $request->validate([
+            'category_id' => ['required', 'integer', 'exists:categories,id'],
+        ]);
+
+        $transaction->update($data);
+
+        return back();
+    }
+    
     public function __construct(
         private readonly TransactionService $transactions,
         private readonly CreateTransactionAction $createTransaction,
