@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Business extends Model
 {
-    use HasFactory, HasUuid;
+    use HasFactory;
 
     protected $fillable = [
         'name', 'email', 'phone', 'currency', 'country', 'timezone',

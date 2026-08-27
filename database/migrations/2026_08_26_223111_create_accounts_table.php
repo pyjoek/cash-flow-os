@@ -11,19 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        DB::unprepared(<<<'SQL'
-            CREATE TABLE accounts (
-                id CHAR(36) PRIMARY KEY,
-                business_id CHAR(36) NOT NULL,
-                name VARCHAR(255) NOT NULL,
-                type ENUM('cash','bank','mpesa','airtel_money','visa','paypal') NOT NULL,
-                balance DECIMAL(15,2) NOT NULL DEFAULT 0,
-                currency CHAR(3) NOT NULL DEFAULT 'TZS',
-                created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-                updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                FOREIGN KEY (business_id) REFERENCES businesses(id) ON DELETE CASCADE
-            ) ENGINE=InnoDB;
-        SQL);
+        schema::create('accounts', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('business_id')->nullable()->constrained('businesses')->onDelete('set null');
+            $table->string('name');
+            $table->enum('type', ['cash', 'bank', 'mpesa', 'airtel_money', 'visa', 'paypal']);
+            $table->decimal('balance', 15, 2)->default(0);
+            $table->char('currency', 3)->default('TZS');
+            $table->timestamps();
+        });
     }
 
     /**

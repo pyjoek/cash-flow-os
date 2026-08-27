@@ -11,17 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        DB::unprepared(<<<'SQL'
-            CREATE TABLE receipts (
-                id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-                transaction_id CHAR(36) NOT NULL,
-                path VARCHAR(500) NOT NULL,
-                ocr_json JSON,
-                ai_summary TEXT,
-                created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (transaction_id) REFERENCES transactions(id) ON DELETE CASCADE
-            ) ENGINE=InnoDB;
-        SQL);
+        schema::create('receipts', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('transaction_id')->nullable()->constrained('transactions')->onDelete('set null');
+            $table->string('path', 500);
+            $table->json('ocr_json')->nullable();
+            $table->text('ai_summary')->nullable();
+            $table->timestamps();
+        });
     }
 
     /**

@@ -11,16 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        DB::unprepared(<<<'SQL'
-            CREATE TABLE categories (
-                id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-                business_id CHAR(36) NOT NULL,
-                name VARCHAR(100) NOT NULL,
-                type ENUM('income','expense') NOT NULL,
-                created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (business_id) REFERENCES businesses(id) ON DELETE CASCADE
-            ) ENGINE=InnoDB;
-        SQL);
+        schema::create('categories', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('business_id')->nullable()->constrained('businesses')->onDelete('set null');
+            $table->string('name');
+            $table->enum('type', ['income', 'expense']);
+            $table->timestamps();
+        });
     }
 
     /**

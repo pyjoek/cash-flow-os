@@ -10,19 +10,21 @@ trait HasUuid
     protected static function bootHasUuid(): void
     {
         static::creating(function (Model $model) {
-            if (empty($model->{$model->getKeyName()})) {
-                $model->{$model->getKeyName()} = (string) Str::uuid();
+            if (!empty($model->{$model->getKeyName()})) {
+                return;
             }
+
+            $model->{$model->getKeyName()} = (int) $model->newQuery()->max($model->getKeyName()) + 1;
         });
     }
 
     public function getIncrementing(): bool
     {
-        return false;
+        return true;
     }
 
     public function getKeyType(): string
     {
-        return 'string';
+        return 'int';
     }
 }

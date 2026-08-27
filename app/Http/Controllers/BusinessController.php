@@ -29,10 +29,9 @@ class BusinessController extends Controller
         $business = Business::create($data);
 
         $user = $request->user();
-        $user->business_id = $business->id;
         $user->role = 'owner';
         $user->save();
 
-        return redirect()->route('dashboard');
+        return redirect()->route('/dashboard');
     }
 }

@@ -11,28 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        DB::unprepared(<<<'SQL'
-            CREATE TABLE transactions (
-                id CHAR(36) PRIMARY KEY,
-                business_id CHAR(36) NOT NULL,
-                account_id CHAR(36) NOT NULL,
-                category_id BIGINT UNSIGNED,
-                type ENUM('income','expense','transfer') NOT NULL,
-                amount DECIMAL(15,2) NOT NULL,
-                description VARCHAR(500),
-                reference VARCHAR(100),
-                transaction_date DATE NOT NULL,
-                created_by BIGINT UNSIGNED,
-                status ENUM('pending','cleared','reconciled') NOT NULL DEFAULT 'cleared',
-                created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-                updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                FOREIGN KEY (business_id) REFERENCES businesses(id) ON DELETE CASCADE,
-                FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE,
-                FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL,
-                FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL,
-                INDEX idx_business_date (business_id, transaction_date)
-            ) ENGINE=InnoDB;
-        SQL);
+        schema::create('transactions', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('business_id')->nullable()->constrained('businesses')->onDelete('set null');
+            $table->foreignId('account_id')->nullable()->constrained('accounts')->onDelete('set null');
+            $table->foreignId('category_id')->nullable()->nullable()->constrained('categories')->onDelete('set null');
+            $table->enum('type', ['income', 'expense', 'transfer']);
+            $table->decimal('amount', 15, 2);
+            $table->string('description', 500)->nullable();
+            $table->string('reference', 100)->nullable();
+            $table->date('transaction_date');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null');
+            $table->enum('status', ['pending', 'cleared', 'reconciled'])->default('cleared');
+            $table->timestamps();
+        });
     }
 
     /**
