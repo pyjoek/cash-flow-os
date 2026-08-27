@@ -34,7 +34,7 @@ class TransactionController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
-            'account_id' => ['required', 'uuid', 'exists:accounts,id'],
+            'account_id' => ['required', 'integer', 'exists:accounts,id'],
             'category_id' => ['nullable', 'integer', 'exists:categories,id'],
             'type' => ['required', 'in:income,expense,transfer'],
             'amount' => ['required', 'numeric', 'min:0.01'],
