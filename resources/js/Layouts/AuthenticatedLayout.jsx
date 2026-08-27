@@ -48,7 +48,12 @@ export default function AuthenticatedLayout({ children }) {
                     </div>
 
                     <div className="flex items-center gap-4">
-                        <span className="hidden text-sm text-[#8FB6A8] sm:inline">{auth.user.name}</span>
+                        <Link
+                            href={route('profile.edit')}
+                            className="hidden text-sm text-[#C7D9D2] hover:underline sm:inline"
+                        >
+                            {auth.user.name}
+                        </Link>
                         <Link
                             href={route('logout')}
                             method="post"
@@ -111,7 +116,13 @@ export default function AuthenticatedLayout({ children }) {
                         </nav>
 
                         <div className="mt-3 flex items-center justify-between border-t border-white/10 pt-3">
-                            <span className="text-sm text-[#8FB6A8]">{auth.user.name}</span>
+                            <Link
+                                href={route('profile.edit')}
+                                onClick={() => setMobileOpen(false)}
+                                className="text-sm text-[#C7D9D2] hover:underline"
+                            >
+                                {auth.user.name}
+                            </Link>
                             <Link
                                 href={route('logout')}
                                 method="post"
