@@ -1,4 +1,6 @@
 import { Head, Link, useForm } from '@inertiajs/react';
+import ApplicationLogo from '@/Components/ApplicationLogo';
+
 
 const ledgerRows = [
     { label: 'Uber', category: 'Transport', amount: '-12,000', type: 'expense' },
@@ -56,11 +58,8 @@ export default function Register() {
                 >
                     <div className="relative z-10 px-10 pt-12">
                         <div className="flex items-center gap-2">
-                            <div
-                                className="flex h-8 w-8 items-center justify-center rounded-md text-sm font-semibold"
-                                style={{ backgroundColor: '#C08A28', color: '#0F2E2B' }}
-                            >
-                                F
+                            <div>
+                                <ApplicationLogo />
                             </div>
                             <span className="text-[15px] font-medium tracking-wide text-[#F4F1E8]">
                                 FlowPilot

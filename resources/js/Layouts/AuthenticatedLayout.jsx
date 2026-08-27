@@ -1,4 +1,5 @@
 import { Link, usePage } from '@inertiajs/react';
+import ApplicationLogo from '@/Components/ApplicationLogo';
 import { useState } from 'react';
 
 const navItems = [
@@ -18,11 +19,10 @@ export default function AuthenticatedLayout({ children }) {
                 <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
                     <div className="flex items-center gap-8">
                         <Link href={route('dashboard')} className="flex items-center gap-2">
-                            <div
-                                className="flex h-8 w-8 items-center justify-center rounded-md text-sm font-semibold"
-                                style={{ backgroundColor: '#C08A28', color: '#0F2E2B' }}
-                            >
-                                F
+                            <div>
+                                <Link href="/">
+                                    <ApplicationLogo />
+                                </Link>
                             </div>
                             <span className="text-[15px] font-medium text-[#F4F1E8]">FlowPilot</span>
                         </Link>

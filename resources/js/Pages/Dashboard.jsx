@@ -1,4 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import ApplicationLogo from '@/Components/ApplicationLogo';
 import { Head, router } from '@inertiajs/react';
 
 function formatTZS(value) {

@@ -1,4 +1,5 @@
 import { Head, Link, usePage } from '@inertiajs/react';
+import ApplicationLogo from '@/Components/ApplicationLogo';
 
 const ledgerRows = [
     { label: 'Uber', category: 'Transport', amount: '-12,000', type: 'expense' },
@@ -63,12 +64,7 @@ export default function Welcome() {
                 <header className="border-b border-[#E4DCC8]">
                     <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
                         <div className="flex items-center gap-2">
-                            <div
-                                className="flex h-8 w-8 items-center justify-center rounded-md text-sm font-semibold"
-                                style={{ backgroundColor: '#C08A28', color: '#0F2E2B' }}
-                            >
-                                F
-                            </div>
+                            <ApplicationLogo />
                             <span className="text-[15px] font-medium text-[#16231F]">FlowPilot</span>
                         </div>
 
