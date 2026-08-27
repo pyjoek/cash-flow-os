@@ -31,10 +31,21 @@ class DashboardController extends Controller
             ->where('transaction_date', '>=', $monthStart)
             ->sum('amount');
 
-        $topCategories = Transaction::where('transactions.business_id', $businessId)
-            ->where('type', 'expense')
-            ->where('transaction_date', '>=', $monthStart)
+        // $topCategories = Transaction::where('transactions.business_id', $businessId)
+        //     ->where('type', 'expense')
+        //     ->where('transaction_date', '>=', $monthStart)
+        //     ->join('categories', 'categories.id', '=', 'transactions.category_id')
+        //     ->select('categories.name', DB::raw('SUM(transactions.amount) as total'))
+        //     ->groupBy('categories.name')
+        //     ->orderByDesc('total')
+        //     ->limit(5)
+        //     ->get();
+
+        $topCategories = Transaction::query()
             ->join('categories', 'categories.id', '=', 'transactions.category_id')
+            ->where('transactions.business_id', $businessId)
+            ->where('transactions.type', 'expense')
+            ->where('transactions.transaction_date', '>=', $monthStart)
             ->select('categories.name', DB::raw('SUM(transactions.amount) as total'))
             ->groupBy('categories.name')
             ->orderByDesc('total')

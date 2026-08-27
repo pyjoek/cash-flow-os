@@ -27,11 +27,17 @@ class BusinessController extends Controller
         ]);
 
         $business = Business::create($data);
+        $request->user()->forceFill([
+            'business_id' => $business->id,
+        ])->save();
 
         $user = $request->user();
         $user->role = 'owner';
         $user->save();
 
-        return redirect()->route('/dashboard');
+        // return Inertia::render('Dashboard', [
+        //     'business' => $business,
+        // ]);
+        return redirect()->route('dashboard');
     }
 }
