@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Modules\Transactions\Models;
+namespace App\Models;
 
-use App\Modules\Businesses\Models\Business;
+use App\Models\Business;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

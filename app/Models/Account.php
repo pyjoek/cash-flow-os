@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Modules\Accounts\Models;
+namespace App\Models;
 
-use App\Modules\Businesses\Models\Business;
+use App\Models\Business;
 use App\Modules\Shared\Concerns\HasUuid;
-use App\Modules\Transactions\Models\Transaction;
+use App\Models\Transaction;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

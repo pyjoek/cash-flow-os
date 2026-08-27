@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Modules\Businesses\Models;
+namespace App\Models;
 
 use App\Models\User;
-use App\Modules\Accounts\Models\Account;
+use App\Models\Account;
 use App\Modules\Shared\Concerns\HasUuid;
-use App\Modules\Transactions\Models\Category;
-use App\Modules\Transactions\Models\Transaction;
+use App\Models\Category;
+use App\Models\Transaction;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;

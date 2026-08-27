@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            // $table->foreignId('business_id')->nullable()->constrained('businesses')->onDelete('cascade');
+            // $table->foreignId('business_id')->constrained('businesses')->onDelete('cascade');
+            $table->uuid('business_id')->nullable()->after('id');
+            $table->foreign('business_id')->references('id')->on('businesses')->onDelete('set null');
             $table->enum('role', ['owner', 'admin',])->default('owner');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
