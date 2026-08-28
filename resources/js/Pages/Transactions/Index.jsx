@@ -143,7 +143,7 @@ export default function Index({ transactions, categories, accounts }) {
                                     onClick={() => destroy(t.id)}
                                     className="text-sm text-red-600 hover:underline"
                                 >
-                                    Delete
+                                    Rollback
                                 </button>
                             </div>
                         </li>
