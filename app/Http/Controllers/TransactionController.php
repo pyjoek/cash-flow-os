@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Actions\CreateTransactionAction;
 use App\DTOs\TransactionData;
 use App\Models\Account;
+use App\Repositories\AccountRepository;
 use App\Models\Category;
 use App\Models\Transaction;
 use App\Services\TransactionService;
@@ -31,6 +32,7 @@ class TransactionController extends Controller
     public function __construct(
         private readonly TransactionService $transactions,
         private readonly CreateTransactionAction $createTransaction,
+        private readonly AccountRepository $accounts,
     ) {}
 
     public function index(Request $request): Response
@@ -67,6 +69,21 @@ class TransactionController extends Controller
     public function destroy(Transaction $transaction): RedirectResponse
     {
         $this->authorize('delete', $transaction);
+
+        $account = $transaction->account;
+
+        if ($account) {
+            // Reverse whatever UpdateAccountBalance applied when this was created.
+            $delta = match ($transaction->type) {
+                'income' => -1 * (float) $transaction->amount,
+                'expense' => (float) $transaction->amount,
+                default => 0,
+            };
+
+            if ($delta !== 0.0) {
+                $this->accounts->adjustBalance($account, $delta);
+            }
+        }
 
         $transaction->delete();
 

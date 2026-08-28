@@ -1,4 +1,4 @@
-import { useForm } from '@inertiajs/react';
+import { useForm, router } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
 export default function Index({ transactions, categories, accounts }) {
@@ -15,7 +15,7 @@ export default function Index({ transactions, categories, accounts }) {
         e.preventDefault();
 
         if (!data.account_id) {
-            return; // no account exists yet — nothing to submit against
+            return;
         }
 
         post('/transactions', {
@@ -25,6 +25,14 @@ export default function Index({ transactions, categories, accounts }) {
             },
             onSuccess: () => reset(),
         });
+    }
+
+    function destroy(transactionId) {
+        if (!window.confirm('Delete this transaction? This will also reverse its effect on the account balance.')) {
+            return;
+        }
+
+        router.delete(`/transactions/${transactionId}`, { preserveScroll: true });
     }
 
     return (
@@ -39,16 +47,7 @@ export default function Index({ transactions, categories, accounts }) {
                     </p>
                 )}
 
-                <ul className="divide-y divide-gray-200 bg-white rounded-lg shadow mb-6">
-                    {transactions.data.map((t) => (
-                        <li key={t.id} className="p-4 flex justify-between">
-                            <span>{t.description || t.type} — {t.category?.name ?? 'Uncategorized'}</span>
-                            <span>{t.amount}</span>
-                        </li>
-                    ))}
-                </ul>
-
-                <form onSubmit={submit} className="bg-white rounded-lg shadow p-4 space-y-3">
+                <form onSubmit={submit} className="bg-white rounded-lg shadow p-4 space-y-3 mb-6">
                     <h2 className="font-medium">Add transaction</h2>
 
                     <select
@@ -119,6 +118,37 @@ export default function Index({ transactions, categories, accounts }) {
                         Save
                     </button>
                 </form>
+
+                <h2 className="font-medium mb-2">Transaction history</h2>
+                <ul className="divide-y divide-gray-200 bg-white rounded-lg shadow">
+                    {transactions.data.length === 0 && (
+                        <li className="p-4 text-sm text-gray-500">Nothing logged yet.</li>
+                    )}
+                    {transactions.data.map((t) => (
+                        <li key={t.id} className="p-4 flex items-center justify-between">
+                            <div>
+                                <span className="block">
+                                    {t.description || t.type} — {t.category?.name ?? 'Uncategorized'}
+                                </span>
+                                <span className="block text-xs text-gray-500">{t.transaction_date}</span>
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <span
+                                    className={t.type === 'income' ? 'text-green-700' : 'text-red-700'}
+                                >
+                                    {t.type === 'income' ? '+' : '-'}
+                                    {t.amount}
+                                </span>
+                                <button
+                                    onClick={() => destroy(t.id)}
+                                    className="text-sm text-red-600 hover:underline"
+                                >
+                                    Delete
+                                </button>
+                            </div>
+                        </li>
+                    ))}
+                </ul>
             </div>
         </AuthenticatedLayout>
     );
