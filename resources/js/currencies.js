@@ -1,0 +1,18 @@
+export const CURRENCIES = [
+    { code: 'TZS', name: 'Tanzanian Shilling' },
+    { code: 'KES', name: 'Kenyan Shilling' },
+    { code: 'UGX', name: 'Ugandan Shilling' },
+    { code: 'RWF', name: 'Rwandan Franc' },
+    { code: 'BIF', name: 'Burundian Franc' },
+    { code: 'ETB', name: 'Ethiopian Birr' },
+    { code: 'ZAR', name: 'South African Rand' },
+    { code: 'NGN', name: 'Nigerian Naira' },
+    { code: 'GHS', name: 'Ghanaian Cedi' },
+    { code: 'EGP', name: 'Egyptian Pound' },
+    { code: 'USD', name: 'US Dollar' },
+    { code: 'EUR', name: 'Euro' },
+    { code: 'GBP', name: 'British Pound' },
+    { code: 'AED', name: 'UAE Dirham' },
+    { code: 'INR', name: 'Indian Rupee' },
+    { code: 'CNY', name: 'Chinese Yuan' },
+];

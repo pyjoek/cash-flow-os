@@ -16,6 +16,7 @@ class DashboardController extends Controller
 {
     public function index(Request $request, CategorySuggestionService $suggester): Response
     {
+        $currency = $request->user()->business->currency ?? 'TZS';
         $businessId = $request->user()->business_id;
 
         $accounts = Account::where('business_id', $businessId)->get();
@@ -120,6 +121,20 @@ class DashboardController extends Controller
         $net30 = (float) $income30 - (float) $expense30;
         $projectedBalance30 = (float) $currentBalance + $net30;
 
+        // return Inertia::render('Dashboard', [
+        //     'currentBalance' => (float) $currentBalance,
+        //     'cashIn' => (float) $cashIn,
+        //     'cashOut' => (float) $cashOut,
+        //     'netCash' => (float) $cashIn - (float) $cashOut,
+        //     'topCategories' => $topCategories,
+        //     'trend' => $trend,
+        //     'recentTransactions' => $recentTransactions,
+        //     'accountCount' => $accounts->count(),
+        //     'suggestions' => $suggestions,
+        //     'net30' => $net30,
+        //     'projectedBalance30' => $projectedBalance30,
+        // ]);
+
         return Inertia::render('Dashboard', [
             'currentBalance' => (float) $currentBalance,
             'cashIn' => (float) $cashIn,
@@ -132,6 +147,7 @@ class DashboardController extends Controller
             'suggestions' => $suggestions,
             'net30' => $net30,
             'projectedBalance30' => $projectedBalance30,
+            'currency' => $currency,
         ]);
     }
 }

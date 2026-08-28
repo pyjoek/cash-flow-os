@@ -245,16 +245,13 @@ export default function Welcome() {
                 <footer className="border-t border-[#E4DCC8]">
                     <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 py-8 sm:flex-row">
                         <div className="flex items-center gap-2">
-                            <div
-                                className="flex h-6 w-6 items-center justify-center rounded text-xs font-semibold"
-                                style={{ backgroundColor: '#C08A28', color: '#0F2E2B' }}
-                            >
-                                F
-                            </div>
+                            <ApplicationLogo />
                             <span className="text-sm text-[#6B6558]">FlowPilot — free, community-built, always.</span>
                         </div>
                         <p className="text-xs text-[#8A8272]">
+                            <a href="https://github.com/pyjoek/cash-flow-os">
                             Open source. Contributions welcome.
+                            </a>
                         </p>
                     </div>
                 </footer>

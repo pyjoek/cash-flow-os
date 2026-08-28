@@ -1,4 +1,5 @@
 import { useForm } from '@inertiajs/react';
+import { CURRENCIES } from '@/currencies';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
 export default function Index({ accounts }) {
@@ -55,14 +56,17 @@ export default function Index({ accounts }) {
                         value={data.balance}
                         onChange={(e) => setData('balance', e.target.value)}
                     />
-                    <input
-                        type="text"
-                        maxLength={3}
-                        placeholder="Currency"
+                    <select
                         className="w-full border-gray-300 rounded-md"
                         value={data.currency}
-                        onChange={(e) => setData('currency', e.target.value.toUpperCase())}
-                    />
+                        onChange={(e) => setData('currency', e.target.value)}
+                    >
+                        {CURRENCIES.map((c) => (
+                            <option key={c.code} value={c.code}>
+                                {c.code} — {c.name}
+                            </option>
+                        ))}
+                    </select>
                     <button
                         type="submit"
                         disabled={processing}

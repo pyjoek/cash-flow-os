@@ -1,4 +1,5 @@
 import { useForm } from '@inertiajs/react';
+import { CURRENCIES } from '@/currencies';
 
 export default function Create() {
     const { data, setData, post, processing, errors } = useForm({
@@ -24,7 +25,7 @@ export default function Create() {
                     <input
                         type="text"
                         className="mt-1 w-full border-gray-300 rounded-md"
-                        value={data.name}
+                        value={data.name} placeholder='Personal, Online Business'
                         onChange={(e) => setData('name', e.target.value)}
                     />
                     {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
@@ -41,13 +42,18 @@ export default function Create() {
                 </div>
                 <div>
                     <label className="block text-sm font-medium">Currency</label>
-                    <input
-                        type="text"
-                        maxLength={3}
+                    <select
                         className="mt-1 w-full border-gray-300 rounded-md"
                         value={data.currency}
-                        onChange={(e) => setData('currency', e.target.value.toUpperCase())}
-                    />
+                        onChange={(e) => setData('currency', e.target.value)}
+                    >
+                        {CURRENCIES.map((c) => (
+                            <option key={c.code} value={c.code}>
+                                {c.code} — {c.name}
+                            </option>
+                        ))}
+                    </select>
+                    {errors.currency && <p className="text-red-500 text-sm">{errors.currency}</p>}
                 </div>
                 <button
                     type="submit"
