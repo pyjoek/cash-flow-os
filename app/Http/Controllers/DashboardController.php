@@ -137,7 +137,7 @@ class DashboardController extends Controller
 
         return Inertia::render('Dashboard', [
             'currentBalance' => (float) $currentBalance,
-            'cashIn' => (float) $cashIn,
+            // 'cashIn' => (float) $cashIn,
             'cashOut' => (float) $cashOut,
             'netCash' => (float) $cashIn - (float) $cashOut,
             'topCategories' => $topCategories,

@@ -85,7 +85,7 @@ function ForecastCard({ projectedBalance30, net30, currency }) {
 
 export default function Dashboard({
     currentBalance,
-    cashIn,
+    // cashIn,
     cashOut,
     netCash,
     topCategories,
@@ -112,9 +112,9 @@ export default function Dashboard({
             </p>
 
             {/* Top row */}
-            <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 <StatCard label="Current balance" value={currentBalance} accent="#0F2E2B" currency={currency} />
-                <StatCard label="Cash in" value={cashIn} accent="#2F7A55" currency={currency} />
+                {/* <StatCard label="Cash in" value={cashIn} accent="#2F7A55" currency={currency} /> */}
                 <StatCard label="Cash out" value={cashOut} accent="#B3402B" currency={currency} />
                 <StatCard
                     label="Net cash"

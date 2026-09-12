@@ -51,7 +51,7 @@ class TransactionController extends Controller
         $data = $request->validate([
             'account_id' => ['required', 'integer', 'exists:accounts,id'],
             'category_id' => ['nullable', 'integer', 'exists:categories,id'],
-            'type' => ['required', 'in:income,expense,transfer'],
+            'type' => ['required', 'in:income,expense'],
             'amount' => ['required', 'numeric', 'min:0.01'],
             'description' => ['nullable', 'string', 'max:500'],
             'reference' => ['nullable', 'string', 'max:100'],

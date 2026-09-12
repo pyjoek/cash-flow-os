@@ -11,6 +11,8 @@ export default function Index({ transactions, categories, accounts }) {
         transaction_date: new Date().toISOString().slice(0, 10),
     });
 
+    const visibleCategories = categories.filter((c) => c.type === data.type);
+
     function submit(e) {
         e.preventDefault();
 
@@ -23,7 +25,7 @@ export default function Index({ transactions, categories, accounts }) {
                 ...data,
                 category_id: data.category_id === '' ? null : data.category_id,
             },
-            onSuccess: () => reset(),
+            onSuccess: () => reset('amount', 'description', 'category_id'),
         });
     }
 
@@ -33,6 +35,14 @@ export default function Index({ transactions, categories, accounts }) {
         }
 
         router.delete(`/transactions/${transactionId}`, { preserveScroll: true });
+    }
+
+    function onTypeChange(type) {
+        setData((current) => ({
+            ...current,
+            type,
+            category_id: '',
+        }));
     }
 
     return (
@@ -63,26 +73,27 @@ export default function Index({ transactions, categories, accounts }) {
 
                     <select
                         className="w-full border-gray-300 rounded-md"
+                        value={data.type}
+                        onChange={(e) => onTypeChange(e.target.value)}
+                    >
+                        <option value="income">Money in</option>
+                        <option value="expense">Money out</option>
+                    </select>
+                    {errors.type && <p className="text-red-500 text-sm">{errors.type}</p>}
+
+                    <select
+                        className="w-full border-gray-300 rounded-md"
                         value={data.category_id}
                         onChange={(e) => setData('category_id', e.target.value)}
                     >
-                        <option value="">Uncategorized</option>
-                        {categories.map((c) => (
+                        <option value="">
+                            {data.type === 'income' ? 'What kind of money in?' : 'What was this money used for?'}
+                        </option>
+                        {visibleCategories.map((c) => (
                             <option key={c.id} value={c.id}>{c.name}</option>
                         ))}
                     </select>
                     {errors.category_id && <p className="text-red-500 text-sm">{errors.category_id}</p>}
-
-                    <select
-                        className="w-full border-gray-300 rounded-md"
-                        value={data.type}
-                        onChange={(e) => setData('type', e.target.value)}
-                    >
-                        <option value="income">Income</option>
-                        <option value="expense">Expense</option>
-                        <option value="transfer">Transfer</option>
-                    </select>
-                    {errors.type && <p className="text-red-500 text-sm">{errors.type}</p>}
 
                     <input
                         type="number"
@@ -96,7 +107,7 @@ export default function Index({ transactions, categories, accounts }) {
 
                     <input
                         type="text"
-                        placeholder="Description"
+                        placeholder={data.type === 'income' ? 'e.g. Shop sales, M-Pesa from Amina' : 'e.g. Fuel to Kariakoo, TANESCO'}
                         className="w-full border-gray-300 rounded-md"
                         value={data.description}
                         onChange={(e) => setData('description', e.target.value)}

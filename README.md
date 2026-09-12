@@ -87,6 +87,7 @@ Transactions belong to a business, an account, and a category.
 composer install
 cp .env.example .env
 php artisan key:generate
+npm install -D "laravel-vite-plugin@^1.3.0" "@vitejs/plugin-react@^4.2.0" --legacy-peer-deps
 ```
 
 Set `.env`:
