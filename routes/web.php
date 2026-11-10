@@ -14,6 +14,10 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/privacy', function () {
+    return Inertia::render('PrivacyPolicy');
+})->name('privacy');
+
 use App\Http\Controllers\DashboardController;
 
 Route::middleware(['auth', 'verified', 'business'])
