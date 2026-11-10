@@ -48,7 +48,7 @@ const steps = [
     { step: '01', title: 'Create a free account', body: 'No credit card, no trial period — just register.' },
     { step: '02', title: 'Add your accounts', body: 'Cash drawer, bank account, mobile money — whatever you actually use.' },
     { step: '03', title: 'Log transactions', body: 'Income and expenses, categorized as you go — or accept a suggestion.' },
-    { step: '04', title: 'See where you stand', body: 'One dashboard, updated in real time, with a forecast for what\u2019s next.' },
+    { step: '04', title: 'See where you stand', body: 'One dashboard, updated in real time, with a forecast for what’s next.' },
 ];
 
 export default function Welcome() {
@@ -128,7 +128,7 @@ export default function Welcome() {
                                 className="rounded-md px-6 py-3 text-[15px] font-medium text-white"
                                 style={{ backgroundColor: '#0F2E2B' }}
                             >
-                                {auth?.user ? 'Go to dashboard' : 'Get started — it\u2019s free'}
+                                {auth?.user ? 'Go to dashboard' : 'Get started — it’s free'}
                             </Link>
                             <a
                                 href="#how-it-works"
@@ -248,11 +248,14 @@ export default function Welcome() {
                             <ApplicationLogo />
                             <span className="text-sm text-[#6B6558]">FlowPilot — free, community-built, always.</span>
                         </div>
-                        <p className="text-xs text-[#8A8272]">
-                            <a href="https://github.com/pyjoek/cash-flow-os">
-                            Open source. Contributions welcome.
+                        <div className="flex gap-4 text-xs text-[#8A8272]">
+                            <Link href={route('privacy')} className="hover:underline">
+                                Privacy Policy
+                            </Link>
+                            <a href="https://github.com/pyjoek/cash-flow-os" target="_blank" rel="noopener noreferrer" className="hover:underline">
+                                Open source. Contributions welcome.
                             </a>
-                        </p>
+                        </div>
                     </div>
                 </footer>
             </div>
